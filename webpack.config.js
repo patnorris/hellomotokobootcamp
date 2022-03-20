@@ -41,6 +41,8 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 const frontendDirectory = "hello_assets";
 
 const asset_entry = path.join("src", frontendDirectory, "src", "index.html");
+/* const asset_entry2 = path.join("src", frontendDirectory, "src", "views", "usercollection", "usercollection.html");
+const asset_entry3 = path.join("src", frontendDirectory, "src", "views", "allnfts", "allnfts.html"); */
 
 module.exports = {
   target: "web",
@@ -49,6 +51,8 @@ module.exports = {
     // The frontend.entrypoint points to the HTML file for this build, so we need
     // to replace the extension to `.js`.
     index: path.join(__dirname, asset_entry).replace(/\.html$/, ".js"),
+    /* usercollection: path.join(__dirname, asset_entry2).replace(/\.html$/, ".js"),
+    allnfts: path.join(__dirname, asset_entry3).replace(/\.html$/, ".js"), */
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -66,7 +70,7 @@ module.exports = {
     },
   },
   output: {
-    filename: "index.js",
+    filename: "[name].js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
 
@@ -75,17 +79,28 @@ module.exports = {
   // webpack configuration. For example, if you are using React
   // modules and CSS as described in the "Adding a stylesheet"
   // tutorial, uncomment the following lines:
-  // module: {
-  //  rules: [
-  //    { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
-  //    { test: /\.css$/, use: ['style-loader','css-loader'] }
-  //  ]
-  // },
+  module: {
+    rules: [
+      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
+      { test: /\.css$/, use: ['style-loader','css-loader'] }
+    ]
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, asset_entry),
       cache: false,
+      filename: 'index.html',
     }),
+    /* new HtmlWebpackPlugin({
+      template: path.join(__dirname, asset_entry2),
+      cache: false,
+      filename: 'usercollection.html',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, asset_entry3),
+      cache: false,
+      filename: 'allnfts.html',
+    }), */
     new CopyPlugin({
       patterns: [
         {
@@ -96,6 +111,7 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
+      //DFX_NETWORK: network,
       ...canisterEnvVariables,
     }),
     new webpack.ProvidePlugin({

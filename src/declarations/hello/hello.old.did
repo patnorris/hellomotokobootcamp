@@ -62,7 +62,6 @@ type GenericValue =
    TextContent: text;
  };
 service : {
-  allTokenMetadata: () -> (Result_2) query;
   balanceOf: (principal) -> (nat) query;
   callerTokenMetadata: () -> (Result_2) query;
   doIOwn: (nat) -> (bool) query;

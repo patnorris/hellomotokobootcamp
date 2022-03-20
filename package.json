@@ -13,12 +13,20 @@
     "prebuild": "npm run copy:types",
     "start": "webpack serve --mode development --env development",
     "prestart": "npm run copy:types",
-    "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
+    "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm'",
+    "copy:types:GenererateCandid": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations",
+    "generate:types": "npm run generate:idl; npm run generate:ts",
+    "generate:idl": "didc bind ./src/identity.did -t js > src/declarations/identity/identity.did.js",
+    "generate:ts": "didc bind ./src/identity.did -t ts > src/declarations/identity/identity.did.d.ts"
   },
   "devDependencies": {
     "@dfinity/agent": "0.10.3",
     "@dfinity/candid": "0.10.3",
     "@dfinity/principal": "0.10.3",
+    "@dfinity/auth-client": "^0.10.3",
+    "@dfinity/authentication": "^0.10.3",
+    "@dfinity/identity": "^0.10.3",
+    "lit-html": "^1.4.1",
     "assert": "2.0.0",
     "buffer": "6.0.3",
     "copy-webpack-plugin": "^9.0.1",
@@ -37,5 +45,16 @@
     "last 2 firefox version",
     "last 2 safari version",
     "last 2 edge version"
-  ]
+  ],
+  "dependencies": {
+    "@dfinity/agent": "0.10.3",
+    "@dfinity/auth-client": "^0.10.3",
+    "@dfinity/authentication": "^0.10.3",
+    "@dfinity/candid": "0.10.3",
+    "@dfinity/identity": "^0.10.3",
+    "@dfinity/principal": "0.10.3",
+    "lit-html": "^1.4.1",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5"
+  }
 }
